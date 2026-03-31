@@ -1,4 +1,25 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, request } from '@playwright/test';
+const loginPayload = {userEmail: "navindumalith0@gmail.com", userPassword: "Malith123@"};
+
+test.beforeAll(async () =>{
+    console.log("Before all tests");
+
+    const apiContext = await request.newContext();
+    const loginResponse = await apiContext.post("https://rahulshettyacademy.com/api/ecom/auth/login", {
+        data: loginPayload
+    });
+    expect(loginResponse.ok()).toBeTruthy();
+    
+    const loginResponseJson = await loginResponse.json();
+    const token = loginResponseJson.token;
+
+    console.log(token);
+});
+
+
+test.beforeEach(() =>{
+    
+});
 
 test.only('Open Web API Part 1', async ({ page }) => { 
     await page.goto('https://rahulshettyacademy.com/client/#/auth/login');
