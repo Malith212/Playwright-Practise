@@ -7,6 +7,9 @@ test.only('Place an order', async ({ page }) => {
     const password = page.locator("//input[@type='password']");
     const loginBtn = page.locator("//input[@type='submit']");
     const searchField = page.locator("//input[@name='search']").nth(1);
+    const addToCartBtn = page.locator("//button[@class='btn w-10 rounded']");
+    const cartPage = page.locator("//button[@routerlink='/dashboard/cart']");
+    const checkoutBtn = page.locator("//button[text()='Checkout']");
 
     //values
     const emailValue = "navindumalith0@gmail.com";
@@ -25,6 +28,14 @@ test.only('Place an order', async ({ page }) => {
     await page.keyboard.press('Enter');
 
     await page.waitForTimeout(5000);
+
+    await addToCartBtn.click();
+    await cartPage.click();
+    await checkoutBtn.click();
+
+    await page.waitForTimeout(5000);
+
+
 
 
 
