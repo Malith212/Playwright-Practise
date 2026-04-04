@@ -10,11 +10,25 @@ test.only('Place an order', async ({ page }) => {
     const addToCartBtn = page.locator("//button[@class='btn w-10 rounded']");
     const cartPage = page.locator("//button[@routerlink='/dashboard/cart']");
     const checkoutBtn = page.locator("//button[text()='Checkout']");
+    const cardNumber = page.locator("//input[@type='text']").nth(0);
+    const expiryMonth = page.locator("//select[@class='input ddl']").nth(0);
+    const expiryYear = page.locator("//select[@class='input ddl']").nth(1);
+    const cvv = page.locator("//input[@type='text']").nth(1);
+    const nameOnCard = page.locator("//input[@type='text']").nth(2);
+    const coupenCode = page.locator("//input[@type='text']").nth(3);
+    const shippingCountry = page.locator("//input[@placeholder='Select Country']");
 
     //values
     const emailValue = "navindumalith0@gmail.com";
     const passwordValue = "Malith123@";
     const productName = "ADIDAS ORIGINAL";
+    const cardNumberValue = "42424242424242424";
+    const expiryMonthValue = "12";
+    const expiryYearValue = "29";
+    const cvvValue = "123";
+    const nameOnCardValue = "Navindu Malith";
+    const coupenCodeValue = "rahulshettyacademy";
+    const shippingCountryValue = "Sri Lanka";
 
     await page.goto('https://rahulshettyacademy.com/client');
 
@@ -33,7 +47,19 @@ test.only('Place an order', async ({ page }) => {
     await cartPage.click();
     await checkoutBtn.click();
 
+    await cardNumber.fill(cardNumberValue); 
+    await expiryMonth.selectOption(expiryMonthValue);
+    await expiryYear.selectOption(expiryYearValue);
+    await cvv.fill(cvvValue);
+    await nameOnCard.fill(nameOnCardValue);
+    await coupenCode.fill(coupenCodeValue);
+    await shippingCountry.pressSequentially(shippingCountryValue);
+    await page.locator("//span[text()=' Sri Lanka']").click();
+
     await page.waitForTimeout(5000);
+
+
+    await page.pause();
 
 
 
