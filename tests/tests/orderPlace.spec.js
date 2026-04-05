@@ -66,8 +66,11 @@ test.only('Place an order', async ({ page }) => {
 
     await expect(orderConfirmationMsg).toHaveText(" Thankyou for the order. ");
 
-    const orderId = (await orderIdLocator.textContent()).trim();
-    console.log("Order ID: " + orderId);
+    const orderIdRaw = await orderIdLocator.textContent();
+
+    const orderId = orderIdRaw.split("|")[1].trim();
+
+    console.log("Clean Order ID: " + orderId);
 
     await orderPage.click();
 
@@ -78,6 +81,7 @@ test.only('Place an order', async ({ page }) => {
     console.log("Total number of rows in the order history: " + rowCount);
     for (let i = 0; i < rowCount; i++) {
         const rowText = await tableRows.nth(i).textContent();
+        console.log("Row " + (i + 1) + ": " + rowText);
         if (rowText.includes(orderId)) {
             console.log("Order ID found in the order history: " + orderId);
             break;
