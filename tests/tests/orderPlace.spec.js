@@ -1,4 +1,4 @@
-import {test, expect} from '@playwright/test';
+import { test, expect } from '@playwright/test';
 
 test.only('Place an order', async ({ page }) => {
 
@@ -22,8 +22,8 @@ test.only('Place an order', async ({ page }) => {
     const srilankaOption = page.locator("//span[text()=' Sri Lanka']");
     const orderConfirmationMsg = page.locator("//h1");
     const orderIdLocator = page.locator("//label[@class='ng-star-inserted']");
-    const  tableBody = page.locator("tbody");
-    const tableRows = tableBody.locator("//tbody/tr");
+    const tableBody = page.locator("tbody");
+    const tableRows = tableBody.locator("tr");
 
     //values
     const emailValue = "navindumalith0@gmail.com";
@@ -54,7 +54,7 @@ test.only('Place an order', async ({ page }) => {
     await cartPage.click();
     await checkoutBtn.click();
 
-    await cardNumber.fill(cardNumberValue); 
+    await cardNumber.fill(cardNumberValue);
     await expiryMonth.selectOption(expiryMonthValue);
     await expiryYear.selectOption(expiryYearValue);
     await cvv.fill(cvvValue);
@@ -66,22 +66,25 @@ test.only('Place an order', async ({ page }) => {
 
     await expect(orderConfirmationMsg).toHaveText(" Thankyou for the order. ");
 
-    const orderId = await orderIdLocator.textContent();
+    const orderId = (await orderIdLocator.textContent()).trim();
     console.log("Order ID: " + orderId);
 
     await orderPage.click();
 
+    await page.waitForTimeout(5000);
+
     //Iterating through table rows to find the order ID
     const rowCount = await tableRows.count();
-    for(let i=0; i<rowCount; i++){
+    console.log("Total number of rows in the order history: " + rowCount);
+    for (let i = 0; i < rowCount; i++) {
         const rowText = await tableRows.nth(i).textContent();
-        if(rowText.includes(orderId)){
+        if (rowText.includes(orderId)) {
             console.log("Order ID found in the order history: " + orderId);
             break;
         }
     }
 
-    await page.waitForTimeout(5000);
 
-    
+
+
 })
