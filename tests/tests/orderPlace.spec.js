@@ -17,6 +17,11 @@ test.only('Place an order', async ({ page }) => {
     const nameOnCard = page.locator("//input[@type='text']").nth(2);
     const coupenCode = page.locator("//input[@type='text']").nth(3);
     const shippingCountry = page.locator("//input[@placeholder='Select Country']");
+    const placeOrderBtn = page.locator("//a[text()='Place Order ']");
+    const orderPage = page.locator("//button[@routerlink='/dashboard/myorders']");
+    const srilankaOption = page.locator("//span[text()=' Sri Lanka']");
+    const orderConfirmationMsg = page.locator("//h1");
+    const orderIdLocator = page.locator("//label[@class='ng-star-inserted']");
 
     //values
     const emailValue = "navindumalith0@gmail.com";
@@ -54,7 +59,15 @@ test.only('Place an order', async ({ page }) => {
     await nameOnCard.fill(nameOnCardValue);
     await coupenCode.fill(coupenCodeValue);
     await shippingCountry.pressSequentially(shippingCountryValue);
-    await page.locator("//span[text()=' Sri Lanka']").click();
+    await srilankaOption.click();
+    await placeOrderBtn.click();
+
+    await expect(orderConfirmationMsg).toHaveText(" Thankyou for the order. ");
+
+    const orderId = await orderIdLocator.textContent();
+    console.log("Order ID: " + orderId);
+
+
 
     await page.waitForTimeout(5000);
 
