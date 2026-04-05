@@ -22,6 +22,8 @@ test.only('Place an order', async ({ page }) => {
     const srilankaOption = page.locator("//span[text()=' Sri Lanka']");
     const orderConfirmationMsg = page.locator("//h1");
     const orderIdLocator = page.locator("//label[@class='ng-star-inserted']");
+    const  tableBody = page.locator("tbody");
+    const tableRows = tableBody.locator("//tbody/tr");
 
     //values
     const emailValue = "navindumalith0@gmail.com";
@@ -67,17 +69,19 @@ test.only('Place an order', async ({ page }) => {
     const orderId = await orderIdLocator.textContent();
     console.log("Order ID: " + orderId);
 
+    await orderPage.click();
 
+    //Iterating through table rows to find the order ID
+    const rowCount = await tableRows.count();
+    for(let i=0; i<rowCount; i++){
+        const rowText = await tableRows.nth(i).textContent();
+        if(rowText.includes(orderId)){
+            console.log("Order ID found in the order history: " + orderId);
+            break;
+        }
+    }
 
     await page.waitForTimeout(5000);
-
-
-    await page.pause();
-
-
-
-
-
 
     
 })
