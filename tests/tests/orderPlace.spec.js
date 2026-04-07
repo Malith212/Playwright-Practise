@@ -89,6 +89,7 @@ test.only('Place an order', async ({ page }) => {
     }
 
 
-
+    //add wait
+    await page.waitForTimeout(5000);
 
 })
