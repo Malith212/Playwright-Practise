@@ -6,6 +6,7 @@ test.only('Place an order', async ({ page }) => {
     const email = page.locator("//input[@type='email']");
     const password = page.locator("//input[@type='password']");
     const loginBtn = page.locator("//input[@type='submit']");
+    const signOutBtn = page.locator("//button[text()=' Sign Out ']");
 
 
     //values
@@ -21,5 +22,10 @@ test.only('Place an order', async ({ page }) => {
 
     //add wait
     await page.waitForTimeout(5000);
+
+    await expect(signOutBtn).toBeVisible();
+    await signOutBtn.click();
+
+
 
 })
