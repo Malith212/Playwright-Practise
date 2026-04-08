@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.only('Place an order', async ({ page }) => {
+test('Place an order', async ({ page }) => {
 
     //locators
     const email = page.locator("//input[@type='email']");
